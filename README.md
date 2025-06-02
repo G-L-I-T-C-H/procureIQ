@@ -1,2 +1,2 @@
 # procureIQ
-Agentic Sytem that streamline the Procurement Process
+Agentic Sytem that streamlines the Procurement Process
