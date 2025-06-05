@@ -1,0 +1,14 @@
+rfx_generator_task:
+  description: >
+    Using the Gemini 2.5 Flash LLM, validate the {topic} input to ensure it contains the required criteria: quantity (e.g., "50 units"), what to acquire (e.g., "computers"), and deadline (e.g., "2-week delivery"). If any criteria are missing, save the provided input to partial_rfx_input.json, prompt the user to provide the missing details, and wait for updated input. Once all criteria are present, combine the saved input from partial_rfx_input.json with the new input to create a professional RFx document for suppliers. Ensure the document includes the following mandatory fields:
+    - RFQ Number: {rfq_number}
+    - Issue Date: {issue_date}
+    - Submission Deadline: {submission_deadline}
+    - Issued By: {issued_by}
+    - Contact Person: {contact_person}
+    - Email: {email}
+    - Phone: {phone}
+    - Closing Salutation with a closing statement, name of the issuer (Procurement Manager), and organisation name
+  expected_output: >
+    A professional RFx document formatted as a markdown file, containing a concise project overview, detailed requirements, budget details, clear submission instructions, guarantees for suppliers, and all mandatory fields: RFQ Number ({rfq_number}), Issue Date ({issue_date}), Submission Deadline ({submission_deadline}), Issued By ({issued_by}), Contact Person ({contact_person}), Email ({email}), Phone ({phone}), and a closing salutation with statement, issuer name, title (Procurement Manager), and organisation name.
+  agent: rfx_generator
