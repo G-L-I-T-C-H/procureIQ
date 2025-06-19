@@ -1,0 +1,41 @@
+rfx_generator_task:
+  description: >
+    Using the Gemini 2.5 Flash LLM, validate the {topic} input to ensure it contains the required criteria: quantity (e.g., "50 units"), what to acquire (e.g., "computers"), and deadline (e.g., "2-week delivery"). If any criteria are missing, save the provided input to partial_rfx_input.json, prompt the user to provide the missing details, and wait for updated input. Once all criteria are present, combine the saved input from partial_rfx_input.json with the new input to create a professional RFx document for suppliers. Ensure the document includes the following mandatory fields in the header:
+    - RFQ Number: {rfq_number}
+    - Issue Date: {issue_date}
+    - Submission Deadline: {submission_deadline}
+    - Issued By: {issued_by}
+    - Contact Person: {contact_person}
+    - Email: {email}
+    - Phone: {phone}
+    - Closing Salutation with a closing statement, name of the issuer (Procurement Manager), and organisation name
+    Structure the requirements section to include:
+    - Quantity: Extracted from the input (e.g., "50 Units").
+    - Type: Specify the item type (e.g., "Laptops and Desktops") based on the "what to acquire" input.
+    - Specifications: A flat list of 4 key specifications (e.g., Processor, RAM, Storage, OS) derived from the input or default business specs.
+    - Detailed Configurations: Additional details for laptops and desktops in a nested list (e.g., display size, connectivity).
+    - Warranty: Minimum warranty period (e.g., "3 years") from the input.
+    - Delivery: Target delivery timeline (e.g., "2 weeks") from the input.
+  expected_output: >
+    A professional RFx document formatted as a markdown file, containing:
+    - A header with all mandatory fields: RFQ Number ({rfq_number}), Issue Date ({issue_date}), Submission Deadline ({submission_deadline}), Issued By ({issued_by}), Contact Person ({contact_person}), Email ({email}), Phone ({phone}).
+    - A concise project overview describing the procurement need (e.g., "procurement of 50 new business-grade computers").
+    - A detailed requirements section with:
+      - Quantity (e.g., "50 Units").
+      - Type (e.g., "Laptops and Desktops").
+      - Specifications as a flat list of 4 key items (e.g., Processor, RAM, Storage, OS).
+      - Detailed Configurations for laptops and desktops in a nested list.
+      - Warranty (e.g., "3 years of next business day on-site warranty").
+      - Delivery timeline (e.g., "within 2 weeks").
+    - Budget details requesting unit price, taxes, warranty costs, and delivery costs.
+    - Clear submission instructions with the email address and deadline.
+    - Guarantees for suppliers ensuring confidentiality and fair evaluation.
+    - A closing salutation with a statement, issuer name, title (Procurement Manager), and organisation name.
+  agent: rfx_generator
+
+supplier_finder_task:
+  description: >
+    Read the product details from rfx.md (e.g., "50 computers, 16GB RAM, 512GB SSD, 2-week delivery"). Frame a search prompt for Alibaba (e.g., "computers 16GB RAM 512GB SSD"). Use Playwright to navigate to Alibaba, search for the product, and extract details for up to 5 suppliers, including product listing price, reviews (default to 0 if not present), rating (default to 0 if not present), estimated delivery time, and verified status. Assign the phone number 7010030190 and alternate email addresses (22b143@psgitech.ac.in for odd-numbered suppliers, sanjithkaran22@gmail.com for even-numbered suppliers) to suppliers. Store the results in suppliers.csv with columns: name, price, reviews, rating, estimated_delivery_time, verified_status, email, phone.
+  expected_output: >
+    A CSV file (suppliers.csv) containing up to 5 suppliers with columns: name, price, reviews, rating, estimated_delivery_time, verified_status, email, phone. The phone number for all suppliers is 7010030190, and emails alternate between 22b143@psgitech.ac.in (odd-numbered suppliers) and sanjithkaran22@gmail.com (even-numbered suppliers).
+  agent: supplier_finder
