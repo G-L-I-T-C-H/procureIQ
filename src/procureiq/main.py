@@ -2,9 +2,13 @@
 import re
 import sys
 import warnings
+import os
 from datetime import datetime, timedelta
 from procureiq.crew import Procureiq
 from procureiq.tools.supplier_search_tool import SupplierSearchTool
+
+# Add the project root directory to the Python path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
